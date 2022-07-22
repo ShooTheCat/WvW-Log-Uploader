@@ -1,0 +1,13 @@
+{
+    "webhookURL": "DISCORD WEBHOOK URL",
+    "logPath": "PATH/TO/LOG/DIRECTORY",
+    "uploadParams": 
+        {
+            "json": 1,
+            "generator": "ei",
+            "userToken": "DPS.REPORT USERTOKEN",
+            "detailedwvw": "true",
+            "anonymous": "false"
+        }
+    
+}
