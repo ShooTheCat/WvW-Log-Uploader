@@ -5,7 +5,7 @@ import requests
 
 def data(log_id):
     log_json = requests.get(f"https://wvw.report/getJson?id={log_id}").json()
-    fight_info = [log_json["duration"], log_json["fightName"][15:], len(log_json["targets"]), len(log_json["players"])]
+    fight_info = [log_json["duration"], log_json["fightName"][15:], len(log_json["targets"][1:]), len(log_json["players"])]
     commander = ""
     player_names = [player["name"] for player in log_json["players"]]
 
