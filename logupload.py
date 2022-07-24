@@ -6,6 +6,8 @@ from watchdog.events import FileSystemEventHandler
 import requests
 import formating
 import json
+from datetime import datetime
+import pytz
 
 if __name__ == "__main__":
     my_event_handler = FileSystemEventHandler()
@@ -45,6 +47,11 @@ if __name__ == "__main__":
                             "title": "Toxic Elitist Log",
                             "color": 10354879,
                             "description": f"**[dps.report]({link})**\n**Map**: {stats[3][1]}\n**Commander**: {stats[4]}\n**Duration**: {stats[3][0]}", # wvw.report/dps.report link, map the fight was on, commanders character and account name, fight duration
+                            "footer": {
+                                "text": "Time of upload (UK time)",
+                                "icon_url": "https://wiki.guildwars2.com/images/6/68/Girly_quaggan_icon.png"
+                            },
+                            "timestamp": datetime.now(pytz.timezone("Europe/London")),
                             "fields": [
                                 {
                                     "name": "General Info",
