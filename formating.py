@@ -33,7 +33,7 @@ def get_response(log_id):
             + "\n--- -------- ----------------------- -----------------"
         )
 
-        for n in range(10):
+        for n in range(len(player_damage_data[:10])):
             if n < 9:
                 player = (
                     f"\n {n+1}"
@@ -73,7 +73,7 @@ def get_response(log_id):
             + "\n--- ------- ----------------------- ---------"
         )
 
-        for n in range(10):
+        for n in range(len(player_cleanse_data[:10])):
             if n < 9:
                 player = (
                     f"\n {n+1}"
@@ -108,7 +108,7 @@ def get_response(log_id):
             + "\n--- ------- ----------------------- ---------"
         )
 
-        for n in range(10):
+        for n in range(len(player_strip_data[:10])):
             if n < 9:
                 player = (
                     f"\n {n+1}"
@@ -143,7 +143,7 @@ def get_response(log_id):
             + "\n--- ------- ----------------------- -------"
         )
 
-        for n in range(10):
+        for n in range(len(kills_info[:10])):
             if n < 9:
                 player = (
                     f"\n {n+1}"
@@ -178,7 +178,7 @@ def get_response(log_id):
             + "\n--- ------- ----------------------- -------"
         )
 
-        for n in range(10):
+        for n in range(len(downs_info[:10])):
             if n < 9:
                 player = (
                     f"\n {n+1}"
@@ -213,7 +213,7 @@ def get_response(log_id):
             + "\n--- ------- ----------------------- --------"
         )
 
-        for n in range(5):
+        for n in range(len(resses_info[:15])):
             player = (
                 f"\n {n+1}"
                 + " " * 3
