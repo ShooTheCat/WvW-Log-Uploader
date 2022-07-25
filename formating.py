@@ -213,7 +213,7 @@ def get_response(log_id):
             + "\n--- ------- ----------------------- --------"
         )
 
-        for n in range(len(resses_info[:15])):
+        for n in range(len(resses_info[:5])):
             player = (
                 f"\n {n+1}"
                 + " " * 3
