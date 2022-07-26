@@ -51,7 +51,7 @@ if __name__ == "__main__":
                                 "text": "Time of upload",
                                 "icon_url": "https://wiki.guildwars2.com/images/6/68/Girly_quaggan_icon.png"
                             },
-                            "timestamp": f"{datetime.now()}",
+                            "timestamp": f"{datetime.utcnow()}",
                             "fields": [
                                 {
                                     "name": "General Info",
