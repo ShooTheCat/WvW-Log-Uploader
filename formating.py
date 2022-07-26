@@ -80,8 +80,8 @@ def get_response(log_id):
                     + " " * 3
                     + f"{(player_cleanse_data[n][1][1])[:4]}" # Class
                     + " " * 4
-                    + f"{player_cleanse_data[n][0]:<24}" # Char name
-                    + f"{numerize.numerize(player_cleanse_data[n][1][0]):^8}" # Number of cleanses
+                    + f"{player_cleanse_data[n][0]:<26}" # Char name
+                    + f"{numerize.numerize(player_cleanse_data[n][1][0]):<4}" # Number of cleanses
                 )
                 cleanse_formating += player
             else:
@@ -90,8 +90,8 @@ def get_response(log_id):
                     + " " * 3
                     + f"{(player_cleanse_data[n][1][1])[:4]}"
                     + " " * 4
-                    + f"{player_cleanse_data[n][0]:<24}"
-                    + f"{numerize.numerize(player_cleanse_data[n][1][0]):^8}"
+                    + f"{player_cleanse_data[n][0]:<26}"
+                    + f"{numerize.numerize(player_cleanse_data[n][1][0]):<4}"
                 )
                 cleanse_formating += player
         return cleanse_formating
@@ -115,8 +115,8 @@ def get_response(log_id):
                     + " " * 3
                     + f"{(player_strip_data[n][1][1])[:4]}" # Class
                     + " " * 4
-                    + f"{player_strip_data[n][0]:<24}" # Char name
-                    + f"{numerize.numerize(player_strip_data[n][1][0]):^8}" # Number of strips
+                    + f"{player_strip_data[n][0]:<26}" # Char name
+                    + f"{numerize.numerize(player_strip_data[n][1][0]):<4}" # Number of strips
                 )
                 strip_formating += player
             else:
@@ -125,8 +125,8 @@ def get_response(log_id):
                     + " " * 3
                     + f"{(player_strip_data[n][1][1])[:4]}"
                     + " " * 4
-                    + f"{player_strip_data[n][0]:<24}"
-                    + f"{numerize.numerize(player_strip_data[n][1][0]):^8}" 
+                    + f"{player_strip_data[n][0]:<26}"
+                    + f"{numerize.numerize(player_strip_data[n][1][0]):<4}" 
                 )
                 strip_formating += player
         return strip_formating
@@ -150,8 +150,8 @@ def get_response(log_id):
                     + " " * 3
                     + f"{(kills_info[n][1][1])[:4]}"
                     + " " * 4
-                    + f"{kills_info[n][0]:<22}"
-                    + f"{numerize.numerize(kills_info[n][1][0]):^9}"
+                    + f"{kills_info[n][0]:<26}"
+                    + f"{numerize.numerize(kills_info[n][1][0]):<2}"
                 )
                 kills_formating += player
             else:
@@ -160,8 +160,8 @@ def get_response(log_id):
                     + " " * 3
                     + f"{(kills_info[n][1][1])[:4]}"
                     + " " * 4
-                    + f"{kills_info[n][0]:<22}"
-                    + f"{numerize.numerize(kills_info[n][1][0]):^9}"
+                    + f"{kills_info[n][0]:<26}"
+                    + f"{numerize.numerize(kills_info[n][1][0]):<2}"
                 )
                 kills_formating += player
         return kills_formating
@@ -185,8 +185,8 @@ def get_response(log_id):
                     + " " * 3
                     + f"{(downs_info[n][1][1])[:4]}"
                     + " " * 4
-                    + f"{downs_info[n][0]:<22}"
-                    + f"{numerize.numerize(downs_info[n][1][0]):^9}"
+                    + f"{downs_info[n][0]:<26}"
+                    + f"{numerize.numerize(downs_info[n][1][0]):<2}"
                 )
                 downs_formating += player
             else:
@@ -195,8 +195,8 @@ def get_response(log_id):
                     + " " * 3
                     + f"{(downs_info[n][1][1])[:4]}"
                     + " " * 4
-                    + f"{downs_info[n][0]:<22}"
-                    + f"{numerize.numerize(downs_info[n][1][0]):^9}"
+                    + f"{downs_info[n][0]:<26}"
+                    + f"{numerize.numerize(downs_info[n][1][0]):<2}"
                 )
                 downs_formating += player
         return downs_formating
@@ -219,8 +219,8 @@ def get_response(log_id):
                 + " " * 3
                 + f"{(resses_info[n][1][1])[:4]}"
                 + " " * 4
-                + f"{resses_info[n][0]:<22}"
-                + f"{numerize.numerize(resses_info[n][1][0]):^9}"
+                + f"{resses_info[n][0]:<26}"
+                + f"{numerize.numerize(resses_info[n][1][0]):<2}"
             )
             resses_formating += player
 
