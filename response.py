@@ -5,6 +5,7 @@ import requests
 
 def data(log_id):
     log_json = requests.get(f"https://wvw.report/getJson?id={log_id}").json()
+    # log_json = json.load(open(log_id))
     fight_info = [log_json["duration"], log_json["fightName"][15:], len(log_json["targets"][1:]), len(log_json["players"])]
     commander = ""
     player_names = [player["name"] for player in log_json["players"]]
@@ -20,6 +21,10 @@ def data(log_id):
     total_damage_taken = 0
     total_damage_dealt = 0
 
+    for enemy in log_json["targets"][1:]:
+        total_kills += len(enemy["combatReplayData"]["dead"])
+
+
     for player in log_json["players"]:
         if (player["hasCommanderTag"] == True) & ( player["statsAll"][0]["distToCom"] == 0):
             commander = f"{player['name']} ({player['account']})"
@@ -28,13 +33,18 @@ def data(log_id):
         for target in player["dpsTargets"]:
             target_damage += target[0]["damage"]
 
+        kills = 0
+        downs = 0
+        for target in player["statsTargets"]:
+            kills += target[0]["killed"]
+            downs += target[0]["downed"]
+
         target_dps = round((target_damage / player["activeTimes"][0]) * 1000)
 
-        kills_info.append((player["statsAll"][0]["killed"], player["profession"]))
-        downs_info.append((player["statsAll"][0]["downed"], player["profession"]))
         resses_info.append((player["support"][0]["resurrects"], player["profession"]))
-        total_kills += player["statsAll"][0]["killed"]
-        total_deaths += player["defenses"][0]["deadCount"]
+        kills_info.append((kills, player["profession"]))
+        downs_info.append((downs, player["profession"]))
+        total_deaths += len(player["combatReplayData"]["dead"])
         total_damage_taken += player["defenses"][0]["damageTaken"]
         total_damage_dealt += target_damage
 
