@@ -1,9 +1,9 @@
-from ast import Num
-import json
+# import json
 import requests
 import math
 import plotly.express as px
 import pandas as pd
+from tqdm import tqdm
 
 def data(log_id):
     log_json = requests.get(f"https://wvw.report/getJson?id={log_id}").json()
@@ -23,14 +23,14 @@ def data(log_id):
     total_damage_taken = 0
     total_damage_dealt = 0
 
-    for enemy in log_json["targets"][1:]:
+    for enemy in tqdm(log_json["targets"][1:], desc="Enemies", ncols=75):
         total_kills += len(enemy["combatReplayData"]["dead"])
 
     combat_time = math.ceil(log_json["targets"][0]["lastAware"] / 1000) + 1
 
     df = pd.DataFrame(columns=["Name", "Damage", "Time"])
 
-    for player in log_json["players"]:
+    for player in tqdm(log_json["players"], desc="Players", ncols=100):
         if (player["hasCommanderTag"] == True) & ( player["statsAll"][0]["distToCom"] == 0):
             commander = f"{player['name']} ({player['account']})"
 
@@ -107,10 +107,12 @@ def data(log_id):
         reverse=True,
     )
 
+    print("Creating a damage graph!")
     fig = px.line(df, x="Time", y="Damage", color="Name", color_discrete_sequence=px.colors.qualitative.Dark24)
     fig.write_image('damagegraph.png', width=1500, height=750)
     # fig.write_html("damagegraph.html")
-
+    print("Damage graph done!")
+    
     return (
         player_damage_data,
         player_cleanse_data,

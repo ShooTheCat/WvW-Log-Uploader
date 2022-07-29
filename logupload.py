@@ -35,7 +35,7 @@ if __name__ == "__main__":
                 link = response_json["permalink"] # wvw.report/dps.report link
                 log_id = response_json["id"] 
 
-                print(f"Formating data for discord.")
+                print(f"Sending data for formating.")
                 stats = formating.get_response(log_id)
 
                 # Discord webhook
