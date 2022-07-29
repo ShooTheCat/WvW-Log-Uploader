@@ -5,6 +5,8 @@ from response import data
 def get_response(log_id):
     fight_data = data(log_id)
 
+    print("Formating data for discord!")
+
     player_damage_data = fight_data[0]
     player_cleanse_data = fight_data[1]
     player_strip_data = fight_data[2]
