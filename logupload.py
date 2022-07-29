@@ -51,6 +51,9 @@ if __name__ == "__main__":
                                 "text": "Time of upload",
                                 "icon_url": "https://wiki.guildwars2.com/images/6/68/Girly_quaggan_icon.png"
                             },
+                            "image": {
+                                "url": "attachment://damagegraph.png"
+                                },
                             "timestamp": f"{datetime.utcnow()}",
                             "fields": [
                                 {
@@ -88,12 +91,16 @@ if __name__ == "__main__":
                         }
                     ]
                 }
+                files = {}
 
-                headers = {"Content-Type": "application/json"}
+                with open("newplot3.png", "rb") as f:
+                    files["_newplot3.png"] = ("newplot3.png", f.read())
+
+                files["payload_json"] = (None, json.dumps(data))
 
                 print(f"Sending discord webhook.")
 
-                result = requests.post(webhook_url, json=data, headers=headers)
+                result = requests.post(webhook_url, files=files)
 
                 if 200 <= result.status_code < 300:
                     print(f"Webhook sent!")

@@ -1,7 +1,9 @@
 from ast import Num
 import json
 import requests
-
+import math
+import plotly.express as px
+import pandas as pd
 
 def data(log_id):
     log_json = requests.get(f"https://wvw.report/getJson?id={log_id}").json()
@@ -24,10 +26,21 @@ def data(log_id):
     for enemy in log_json["targets"][1:]:
         total_kills += len(enemy["combatReplayData"]["dead"])
 
+    combat_time = math.ceil(log_json["targets"][0]["lastAware"] / 1000) + 1
+
+    df = pd.DataFrame(columns=["Name", "Damage", "Time"])
 
     for player in log_json["players"]:
         if (player["hasCommanderTag"] == True) & ( player["statsAll"][0]["distToCom"] == 0):
             commander = f"{player['name']} ({player['account']})"
+
+        prev_damage = 0
+
+        for i in range(combat_time):
+            new_damage = player["damage1S"][0][i] - prev_damage
+            prev_damage = player["damage1S"][0][i]
+            player_data = [player["name"], new_damage, i]
+            df.loc[len(df.index)] = player_data
 
         target_damage = 0
         for target in player["dpsTargets"]:
@@ -93,6 +106,10 @@ def data(log_id):
         key=lambda kv: kv[1],
         reverse=True,
     )
+
+    fig = px.line(df, x="Time", y="Damage", color="Name", color_discrete_sequence=px.colors.qualitative.Dark24)
+    fig.write_image('damagegraph.png', width=1500, height=750)
+    # fig.write_html("damagegraph.html")
 
     return (
         player_damage_data,
