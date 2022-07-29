@@ -93,8 +93,8 @@ if __name__ == "__main__":
                 }
                 files = {}
 
-                with open("newplot3.png", "rb") as f:
-                    files["_newplot3.png"] = ("newplot3.png", f.read())
+                with open("damagegraph.png", "rb") as f:
+                    files["_damagegraph.png"] = ("damagegraph.png", f.read())
 
                 files["payload_json"] = (None, json.dumps(data))
 
