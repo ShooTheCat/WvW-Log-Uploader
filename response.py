@@ -5,6 +5,45 @@ import plotly.express as px
 import pandas as pd
 from tqdm import tqdm
 
+colour_map_refrence={
+                "Guardian": "#9fc5e8",
+                "Dragonhunter": "#3796ea",
+                "Firebrand": "#1461a4",
+                "Willbender": "#56cdd6",
+                "Revenant": "#ad3636",
+                "Herald": "#ad3636",
+                "Renegade": "#ad3636",
+                "Vindicator": "#ad3636",
+                "Warrior": "#ebc53b",
+                "Berserker": "#ebc53b",
+                "Spellbreaker": "#ebc53b",
+                "Bladesworn": "#ebc53b",
+                "Engineer": "#cc9243",
+                "Scrapper": "#e2c6ac",
+                "Holosmith": "#cc9243",
+                "Mechanist": "#cc9243",
+                "Ranger": "#BDD966",
+                "Druid": "#BDD966",
+                "Soulbeast": "#BDD966",
+                "Untamed": "#BDD966",
+                "Thief": "#b57474",
+                "Daredevil": "#b57474",
+                "Deadeye": "#b57474",
+                "Specter": "#b57474",
+                "Elementalist": "#ed5426",
+                "Tempest": "#e06666",
+                "Weaver": "#ed5426",
+                "Catalyst": "#ed5426",
+                "Mesmer": " #c274e8",
+                "Chronomancer": "#df8bf0",
+                "Mirage": " #c274e8",
+                "Virtuoso": " #c274e8",
+                "Necromancer": "#21D379",
+                "Reaper": "#21D379",
+                "Scourge": "#93c47d",
+                "Harbinger": "#21D379",
+            }
+
 def data(log_id):
     log_json = requests.get(f"https://wvw.report/getJson?id={log_id}").json()
     # log_json = json.load(open(log_id))
@@ -29,6 +68,7 @@ def data(log_id):
     combat_time = math.ceil(log_json["targets"][0]["lastAware"] / 1000) + 1
 
     df = pd.DataFrame(columns=["Name", "Damage", "Time"])
+    colour_map = {}
 
     for player in tqdm(log_json["players"], desc="Players", ncols=100):
         if (player["hasCommanderTag"] == True) & ( player["statsAll"][0]["distToCom"] == 0):
@@ -41,6 +81,7 @@ def data(log_id):
             prev_damage = player["damage1S"][0][i]
             player_data = [player["name"], new_damage, i]
             df.loc[len(df.index)] = player_data
+        colour_map[player["name"]] = colour_map_refrence[player["profession"]]
 
         target_damage = 0
         for target in player["dpsTargets"]:
@@ -108,7 +149,7 @@ def data(log_id):
     )
 
     print("Creating a damage graph!")
-    fig = px.line(df, x="Time", y="Damage", color="Name", color_discrete_sequence=px.colors.qualitative.Dark24)
+    fig = px.line(df, x="Time", y="Damage", color="Name", color_discrete_map = colour_map)
     fig.write_image('damagegraph.png', width=1500, height=750)
     # fig.write_html("damagegraph.html")
     print("Damage graph done!")
