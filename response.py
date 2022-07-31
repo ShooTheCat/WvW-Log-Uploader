@@ -148,8 +148,17 @@ def data(log_id):
         reverse=True,
     )
 
+    group_pos = []
+
+    for player in player_damage_data:
+        group_pos.append(player[0])
+
     print("Creating a damage graph!")
-    fig = px.line(df, x="Time", y="Damage", color="Name", color_discrete_map = colour_map)
+    fig = px.line(df, x="Time", y="Damage", color="Name", color_discrete_map = colour_map, line_group="Name", title="Spike Damage",
+              category_orders={
+                "Name": group_pos
+              })
+    fig.update_layout(legend=dict(orientation="h"))
     fig.write_image('damagegraph.png', width=1500, height=750)
     # fig.write_html("damagegraph.html")
     print("Damage graph done!")
