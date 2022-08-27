@@ -47,7 +47,7 @@ colour_map_refrence={
 def data(log_id):
     log_json = requests.get(f"https://wvw.report/getJson?id={log_id}").json()
     # log_json = json.load(open(log_id))
-    fight_info = [log_json["duration"], log_json["fightName"][15:], len(log_json["targets"][1:]), len(log_json["players"])]
+    fight_info = [log_json["duration"], log_json["fightName"][15:], (len(log_json["targets"]) - 1), len(log_json["players"])]
     commander = ""
     player_names = [player["name"] for player in log_json["players"]]
 
@@ -63,7 +63,10 @@ def data(log_id):
     total_damage_dealt = 0
 
     for enemy in tqdm(log_json["targets"][1:], desc="Enemies", ncols=75):
-        total_kills += len(enemy["combatReplayData"]["dead"])
+        if (enemy["isFake"]):
+            continue
+
+        total_kills += len(enemy["combatReplayData"]["dead"]) 
 
     combat_time = math.ceil(log_json["targets"][0]["lastAware"] / 1000) + 1
 
@@ -159,7 +162,7 @@ def data(log_id):
                 "Name": group_pos
               })
     fig.update_layout(legend=dict(orientation="h"))
-    fig.update_traces(line=dict(smoothing=0.8, width=2))
+    fig.update_traces(line=dict(smoothing=0.5, width=2))
     fig.write_image('damagegraph.png', width=1500, height=750)
     # fig.write_html("damagegraph.html")
     print("Damage graph done!")
