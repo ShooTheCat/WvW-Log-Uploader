@@ -1,6 +1,6 @@
 {
     "webhookURL": "DISCORD WEBHOOK URL",
-    "logPath": "PATH/TO/LOG/DIRECTORY",
+    "logPath": "test_folder",
     "uploadParams": 
         {
             "json": 1,

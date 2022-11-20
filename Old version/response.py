@@ -5,8 +5,8 @@ import plotly.express as px
 import pandas as pd
 from tqdm import tqdm
 
-colour_map_refrence={
-                "Guardian": "#9fc5e8",
+colour_map_refrence = {
+    "Guardian": "#9fc5e8",
                 "Dragonhunter": "#3796ea",
                 "Firebrand": "#1461a4",
                 "Willbender": "#56cdd6",
@@ -42,12 +42,14 @@ colour_map_refrence={
                 "Reaper": "#21D379",
                 "Scourge": "#93c47d",
                 "Harbinger": "#21D379",
-            }
+}
+
 
 def data(log_id):
     log_json = requests.get(f"https://wvw.report/getJson?id={log_id}").json()
     # log_json = json.load(open(log_id))
-    fight_info = [log_json["duration"], log_json["fightName"][15:], (len(log_json["targets"]) - 1), len(log_json["players"])]
+    fight_info = [log_json["duration"], log_json["fightName"][15:],
+                  (len(log_json["targets"]) - 1), len(log_json["players"])]
     commander = ""
     player_names = [player["name"] for player in log_json["players"]]
 
@@ -63,10 +65,10 @@ def data(log_id):
     total_damage_dealt = 0
 
     for enemy in tqdm(log_json["targets"][1:], desc="Enemies", ncols=75):
-        if (enemy["isFake"]):
+        if (enemy["isFake"]):  # "Dummy WvW Agent"
             continue
 
-        total_kills += len(enemy["combatReplayData"]["dead"]) 
+        total_kills += len(enemy["combatReplayData"]["dead"])
 
     combat_time = math.ceil(log_json["targets"][0]["lastAware"] / 1000) + 1
 
@@ -74,7 +76,7 @@ def data(log_id):
     colour_map = {}
 
     for player in tqdm(log_json["players"], desc="Players", ncols=100):
-        if (player["hasCommanderTag"] == True) & ( player["statsAll"][0]["distToCom"] == 0):
+        if (player["hasCommanderTag"] == True) & (player["statsAll"][0]["distToCom"] == 0):
             commander = f"{player['name']} ({player['account']})"
 
         prev_damage = 0
@@ -98,7 +100,8 @@ def data(log_id):
 
         target_dps = round((target_damage / player["activeTimes"][0]) * 1000)
 
-        resses_info.append((player["support"][0]["resurrects"], player["profession"]))
+        resses_info.append(
+            (player["support"][0]["resurrects"], player["profession"]))
         kills_info.append((kills, player["profession"]))
         downs_info.append((downs, player["profession"]))
         total_deaths += len(player["combatReplayData"]["dead"])
@@ -157,16 +160,16 @@ def data(log_id):
         group_pos.append(player[0])
 
     print("Creating a damage graph!")
-    fig = px.line(df, x="Time", y="Damage", color="Name", color_discrete_map = colour_map, line_group="Name", title="Spike Damage", render_mode="svg", line_shape="spline",
-              category_orders={
-                "Name": group_pos
-              })
+    fig = px.line(df, x="Time", y="Damage", color="Name", color_discrete_map=colour_map, line_group="Name", title="Spike Damage", render_mode="svg", line_shape="spline",
+                  category_orders={
+                      "Name": group_pos
+                  })
     fig.update_layout(legend=dict(orientation="h"))
     fig.update_traces(line=dict(smoothing=0.5, width=2))
     fig.write_image('damagegraph.png', width=1500, height=750)
     # fig.write_html("damagegraph.html")
     print("Damage graph done!")
-    
+
     return (
         player_damage_data,
         player_cleanse_data,

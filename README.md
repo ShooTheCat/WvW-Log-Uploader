@@ -31,4 +31,4 @@ detailedwvw=false - Set to 'true' to enabled detailed WvW reports. This may brea
 ## TO-DO
 Add option to upload logs manually. <br/>
 Make a GUI<br/>
-Rewrite it in C++
+Rewrite it in C++ or Rust

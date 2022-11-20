@@ -7,13 +7,12 @@ import requests
 import formating
 import json
 from datetime import datetime
-import pytz
 
 if __name__ == "__main__":
     my_event_handler = FileSystemEventHandler()
 
      # Get data fromg config file
-    with open("config.json") as config_file:
+    with open("../config.json") as config_file:
         upload_config = json.load(config_file)
 
     def on_moved(event):
