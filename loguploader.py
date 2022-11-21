@@ -444,7 +444,7 @@ def squad_information(player_data: list, combat_time: int) -> list:
         strips = player["support"][0]["boonStrips"]
         cleanses = player["support"][0]["condiCleanse"]
         downs_and_kills = player_downs_and_kills(player)  # tuple containing kills and downs (kills, downs)
-        deaths = len(player["combatReplayData"]["dead"])  # player["defenses"][0]["deadCount"]
+        deaths = player["defenses"][0]["deadCount"]  # len(player["combatReplayData"]["dead"])
         resurrects = player["support"][0]["resurrects"]
         damage_taken = player["defenses"][0]["damageTaken"]
 
