@@ -344,7 +344,10 @@ def upload_log(path: str, event) -> None:
         disc_upload.format_data()
 
         # Delete the log file
-        os.remove(f"{event.src_path}")
+        if event.event_type == "created":
+            os.remove(event.src_path)
+        elif event.event_type == "moved":
+            os.remove(event.dest_path)
         # \033[32m makes the text green in the output, \033[0m clears the formatting
         print(f"\033[32mLog file has been deleted!\033[0m\n")
 
