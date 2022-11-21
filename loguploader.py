@@ -518,7 +518,7 @@ def create_spike_graph(damage_dataframe, colour_info: dict, squad_info: list) ->
     """Create a spike damage graph based on 1s damage intervals."""
     # \033[93m makes the text yellow in the output, \033[0m clears the formatting
     print("\033[93mCreating a damage graph!\033[0m")
-    group_pos = [player.name for player in sorted(squad_info, key=lambda player: player.damage_done)]
+    group_pos = [player.name for player in sorted(squad_info, key=lambda player: player.damage_done, reverse=True)]
     fig = px.line(damage_dataframe, x="Time", y="Damage", color="Name", color_discrete_map=colour_info, line_group="Name",
                   title="Spike Damage", render_mode="svg", line_shape="spline",
                   category_orders={
