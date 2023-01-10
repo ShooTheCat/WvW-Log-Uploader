@@ -305,7 +305,7 @@ class DiscordUpload:
         with open("damagegraph.png", "rb") as f:
             files["_damagegraph.png"] = ("damagegraph.png", f.read())
 
-        print(f" discord webhook.")
+        print(f"Sending discord webhook.")
 
         result = requests.post(self.webhook_url, files=files)
 
@@ -332,8 +332,10 @@ def upload_log(path: str, event) -> None:
         print(f"Log has been uploaded!")
 
         response_json = response.json()
+        time.sleep(3)
         print(f"Sending data for formatting.")
         filtered_data = filter_json_data(response_json)
+        time.sleep(3)
         disc_upload = DiscordUpload(filtered_data[0], filtered_data[1], filtered_data[2])
         disc_upload.format_data()
 
@@ -412,6 +414,7 @@ def filter_json_data(response: dict) -> tuple:
         f.write(general_fight_information['link'] + "\n")
 
     squad_info = squad_information(fight_data_json["players"], general_fight_information["combat_time"])
+    time.sleep(1)
     enemy_info = enemy_information(fight_data_json["targets"], squad_info)
 
     return general_fight_information, squad_info, enemy_info
@@ -436,7 +439,7 @@ def squad_information(player_data: list, combat_time: int) -> list:
         strips = player["support"][0]["boonStrips"]
         cleanses = player["support"][0]["condiCleanse"]
         downs_and_kills = player_downs_and_kills(player)  # tuple containing kills and downs (kills, downs)
-        deaths = player["defenses"][0]["deadCount"]  # len(player["combatReplayData"]["dead"])
+        deaths = player["defenses"][0]["deadCount"]
         resurrects = player["support"][0]["resurrects"]
         damage_taken = player["defenses"][0]["damageTaken"]
 
