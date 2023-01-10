@@ -69,8 +69,7 @@ class Handler(FileSystemEventHandler):
             self.log_number += 1
             event_path = event.dest_path
             log_name = rf'{event_path}'.split('\\')[-1]
-            # \033[96m makes the text yellow in the output, \033[0m clears the formatting
-            print(f"\033[96mLog #{self.log_number} created\033[0m")
+            print(f"Log #{self.log_number} created")
             print(f"Name: {log_name}\n")
 
             upload_log(event_path, event)
@@ -306,19 +305,16 @@ class DiscordUpload:
         with open("damagegraph.png", "rb") as f:
             files["_damagegraph.png"] = ("damagegraph.png", f.read())
 
-        # \033[35m makes the text purple in the output, \033[0m clears the formatting
-        print(f"\033[35mSending discord webhook.\033[0m")
+        print(f" discord webhook.")
 
         result = requests.post(self.webhook_url, files=files)
 
         if 200 <= result.status_code < 300:
-            # \033[32m makes the text green in the output, \033[0m clears the formatting
-            print(f"\033[32mWebhook sent!\033[0m")
+            print(f"Webhook sent!")
 
         else:
-            # \033[31m makes the text red in the output, \033[0m clears the formatting
             print(
-                f"\033[31mWebhook not sent with {result.status_code}, response:\n{result.json()}!\033[0m"
+                f"Webhook not sent with {result.status_code}, response:\n{result.json()}!"
             )
 
 
@@ -333,34 +329,30 @@ def upload_log(path: str, event) -> None:
 
     if 200 <= response.status_code < 300:
         # Succeeded in uploading the log
-        # \033[32m makes the text green in the output, \033[0m clears the formatting
-        print(f"\033[32mLog has been uploaded!\033[0m")
+        print(f"Log has been uploaded!")
 
         response_json = response.json()
-        # \033[94m makes the text blue in the output, \033[0m clears the formatting
-        print(f"\033[94mSending data for formatting.\033[0m")
+        print(f"Sending data for formatting.")
         filtered_data = filter_json_data(response_json)
         disc_upload = DiscordUpload(filtered_data[0], filtered_data[1], filtered_data[2])
         disc_upload.format_data()
 
-        # Delete the log file
+
         if event.event_type == "created":
             os.remove(event.src_path)
         elif event.event_type == "moved":
             os.remove(event.dest_path)
-        # \033[32m makes the text green in the output, \033[0m clears the formatting
-        print(f"\033[32mLog file has been deleted!\033[0m\n")
+        print(f"Log file has been deleted!\n")
 
     else:
         # Log upload failed
-        # \033[31m makes the text red in the output, \033[0m clears the formatting
-        print("\033[31mCouldn't upload the log!\033[0m")
+        print("Couldn't upload the log!")
         pprint(response)
-        print("\033[94mMoving log file to a different folder.\033[0m")
+        print("Moving log file to a different folder.")
 
         shutil.move(path, upload_config["logPath"] + "/failed uploads")
 
-        print("\033[32mLog moved to 'failed uploads' folder.\033[0m")
+        print("Log moved to 'failed uploads' folder.")
 
 
 def filter_json_data(response: dict) -> tuple:
@@ -516,8 +508,7 @@ def enemy_information(enemy_data: list, squad_data: list) -> dict:
 
 def create_spike_graph(damage_dataframe, colour_info: dict, squad_info: list) -> None:
     """Create a spike damage graph based on 1s damage intervals."""
-    # \033[93m makes the text yellow in the output, \033[0m clears the formatting
-    print("\033[93mCreating a damage graph!\033[0m")
+    print("Creating a damage graph!")
     group_pos = [player.name for player in sorted(squad_info, key=lambda player: player.damage_done, reverse=True)]
     fig = px.line(damage_dataframe, x="Time", y="Damage", color="Name", color_discrete_map=colour_info, line_group="Name",
                   title="Spike Damage", render_mode="svg", line_shape="spline",
@@ -527,8 +518,7 @@ def create_spike_graph(damage_dataframe, colour_info: dict, squad_info: list) ->
     fig.update_layout(legend=dict(orientation="h"))
     fig.update_traces(line=dict(smoothing=0.5, width=2))
     fig.write_image('damagegraph.png', width=1500, height=750)
-    # \033[93m makes the text yellow in the output, \033[0m clears the formatting
-    print("\033[93mDamage graph done!\033[0m")
+    print("Damage graph done!")
 
 
 if __name__ == "__main__":
